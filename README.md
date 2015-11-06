@@ -22,7 +22,7 @@ $ npm install social-oauth-client
 var express = require('express');
 var app = express();
 
-// require social-oauch-client
+// require social-oauth-client
 var soc = require('social-oauth-client');
 
 // get instance for Google (REPLACE WITH YOUR OWN APP SETTINGS)
@@ -42,7 +42,7 @@ app.get('/google_authorize', function (req, res) {
 // Google OAuth redirection url
 app.get('/google_callback', function (req, res) {
 
-  // delegate to social-oauch-client
+  // delegate to social-oauth-client
   google.callback(req, res).then(function(user) {
 
     // oauth token & user basic info will be shown
@@ -106,7 +106,7 @@ var server = app.listen(3000, function () {
 ```javascript
 ...
 
-// require social-oauch-client
+// require social-oauth-client
 var soc = require('social-oauth-client');
 
 // Facebook (REPLACE WITH YOUR OWN APP SETTINGS)
@@ -126,7 +126,7 @@ app.get('/facebook_authorize', function (req, res) {
 // Facebook OAuth redirection url
 app.get('/service/oauth/facebook_callback', function (req, res) {
 
-  // delegate to social-oauch-client
+  // delegate to social-oauth-client
   facebook.callback(req, res).then(function(user) {
 
     // oauth token & user basic info will be shown
@@ -144,7 +144,7 @@ app.get('/service/oauth/facebook_callback', function (req, res) {
 ```javascript
 ...
 
-// require social-oauch-client
+// require social-oauth-client
 var soc = require('social-oauth-client');
 
 // Twitter (REPLACE WITH YOUR OWN APP SETTINGS)
@@ -166,7 +166,7 @@ app.get('/twitter_authorize', function (req, res) {
 // Twitter OAuth redirection url
 app.get('/service/oauth/twitter_callback', function (req, res) {
 
-  // delegate to social-oauch-client
+  // delegate to social-oauth-client
   twitter.callback(req, res).then(function(user) {
 
     // oauth token & user basic info will be shown
@@ -184,7 +184,7 @@ app.get('/service/oauth/twitter_callback', function (req, res) {
 ```javascript
 ...
 
-// require social-oauch-client
+// require social-oauth-client
 var soc = require('social-oauth-client');
 
 // GitHub (REPLACE WITH YOUR OWN APP SETTINGS)
@@ -202,7 +202,7 @@ app.get('/github_authorize', function (req, res) {
 // GitHub OAuth redirection url
 app.get('/service/oauth/github_callback', function (req, res) {
 
-  // delegate to social-oauch-client
+  // delegate to social-oauth-client
   github.callback(req, res).then(function(user) {
 
     // oauth token & user basic info will be shown

@@ -1,5 +1,5 @@
 {
-  "name": "social-oauch-client",
+  "name": "social-oauth-client",
   "version": "0.1.0",
   "description": "Login with open platforms list Google, Facebook, Twitter, Github & ...",
   "main": "index.js",

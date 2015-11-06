@@ -1,0 +1,37 @@
+{
+  "name": "social-oauch-client",
+  "version": "0.1.0",
+  "description": "Login with open platforms list Google, Facebook, Twitter, Github & ...",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/althjs/social-oauth-client.git"
+  },
+  "keywords": [
+    "OAuth",
+    "Redisfire",
+    "Facebook",
+    "Google",
+    "Twitter",
+    "Github",
+    "Login"
+  ],
+  "author": "Jongsoon Park <althjs@gmail.com> (https://github.com/althjs/redisfire/#readme)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/althjs/social-oauth-client/issues"
+  },
+  "homepage": "https://github.com/althjs/social-oauth-client#readme",
+  "dependencies": {
+    "googleapis": "^2.1.6",
+    "q": "^1.4.1",
+    "querystring": "^0.2.0",
+    "request": "^2.65.0"
+  },
+  "devDependencies": {
+    "express": "^4.13.3"
+  }
+}

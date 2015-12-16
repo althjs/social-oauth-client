@@ -1,6 +1,6 @@
 {
   "name": "social-oauth-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Login with open platforms list Google, Facebook, Twitter, Github & ...",
   "main": "index.js",
   "scripts": {
@@ -17,9 +17,10 @@
     "Google",
     "Twitter",
     "Github",
-    "Login"
+    "SocialLogin",
+	"Disqus"
   ],
-  "author": "Jongsoon Park <althjs@gmail.com> (https://github.com/althjs/redisfire/#readme)",
+  "author": "Jongsoon Park <althjs@gmail.com> (https://github.com/althjs/social-oauth-client/#readme)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/althjs/social-oauth-client/issues"

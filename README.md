@@ -229,23 +229,23 @@ app.get('/service/oauth/github_callback', function (req, res) {
 // require social-oauth-client
 var soc = require('social-oauth-client');
 
-// Disqus (REPLACE WITH YOUR OWN APP SETTINGS)
+// DISQUS (REPLACE WITH YOUR OWN APP SETTINGS)
 var disqus = new soc.Disqus({
   "API_KEY": "KKZyiA1EexxxxxxxxZWnOKoXuKWlKt9SSALYaN40P7rvOw65my6QpbbymWCxSFHZ",
   "API_SECERT": "vihYOhS7xit7IAAvFvayyxkPkWuhHc1Qa0HXYQCUVWvvxxxxxCHgpc4DUnxTB9pn",
   "REDIRECT_URL": "http://js.2do.kr:10000/service/oauth/disqus_callback"
 });
 
-// go to GitHub authorize page
+// go to DISQUS authorize page
 app.get('/disqus_authorize', function (req, res) {
   var url = disqus.getAuthorizeUrl();
   res.redirect(url);
 });
 
-// GitHub OAuth redirection url
+// DISQUS OAuth redirection url
 app.get('/service/oauth/disqus_callback', function (req, res) {
 
-  // delegate to social-oauch-client
+  // delegate to social-oauth-client
   disqus.callback(req, res).then(function(user) {
 
     // oauth token & user basic info will be shown

@@ -21,7 +21,7 @@ GitHub.prototype = {
   PLATFORM_TYPE: 'GITHUB',
   conf: {
     CLIENT_ID: '',
-    CLIENT_SECERT: ''
+    CLIENT_SECRET: ''
   }
 };
 
@@ -37,7 +37,7 @@ GitHub.prototype.callback = function (req, res) {
   var url = 'https://github.com/login/oauth/access_token',
   params = {
     client_id: this.conf.CLIENT_ID,
-    client_secret: this.conf.CLIENT_SECERT,
+    client_secret: this.conf.CLIENT_SECRET,
     code: code
   },
   headers = {
@@ -86,8 +86,13 @@ GitHub.prototype.callback = function (req, res) {
   return deferred.promise;
 };
 
-GitHub.prototype.getAuthorizeUrl = function () {
-  var url = 'https://github.com/login/oauth/authorize?client_id=' + this.conf.CLIENT_ID + '&scope=user';
+GitHub.prototype.getAuthorizeUrl = function (scopes) {
+  var scope = 'user';
+  if (Array.isArray(scopes)) {
+    scope = scopes.join(',');
+  }
+  // console.log(scope);
+  var url = 'https://github.com/login/oauth/authorize?client_id=' + this.conf.CLIENT_ID + '&scope=' + scope;
   return url;
 };
 

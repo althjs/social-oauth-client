@@ -2,37 +2,36 @@
 
 var $q = require("q");
 var request = require('request');
-var qs = require('querystring');
 
-// REF: https://disqus.com/api/docs/auth/
+// REF: https://www.instagram.com/developer/authentication/
 
-function Disqus(configuration) {
+function Instagram(configuration) {
   this.init(configuration);
 }
 
-Disqus.prototype = {
-  PLATFORM_TYPE: 'DISQUS',
+Instagram.prototype = {
+  PLATFORM_TYPE: 'ISTAGRAM',
   conf: {
-    API_KEY: '',
-    API_SECRET: '',
+    CLIENT_ID: '',
+    CLIENT_SECRET: '',
     REDIRECT_URL: ''
   }
 };
 
-Disqus.prototype.init = function(configuration) {
+Instagram.prototype.init = function(configuration) {
   this.conf = configuration;
 };
 
 
-Disqus.prototype.callback = function (req, res) {
+Instagram.prototype.callback = function (req, res) {
   var deferred = $q.defer();
   var code = req.query.code;
 
-  var url = 'https://disqus.com/api/oauth/2.0/access_token/',
+  var url = 'https://api.instagram.com/oauth/access_token',
     params = {
       grant_type: 'authorization_code',
-      client_id: this.conf.API_KEY,
-      client_secret: this.conf.API_SECRET,
+      client_id: this.conf.CLIENT_ID,
+      client_secret: this.conf.CLIENT_SECRET,
       redirect_uri: this.conf.REDIRECT_URL,
       code: code
     },
@@ -44,28 +43,23 @@ Disqus.prototype.callback = function (req, res) {
 
   request.post(url, {form: params, headers: headers}, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      console.log(body);
+      //console.log(body);
 
       var tokens = JSON.parse(body);
-      params = {
-        access_token: tokens.access_token,
-        api_key: params.client_id,
-        api_secret: params.client_secret
-      };
 
-      url = 'https://disqus.com/api/3.0/users/details.json?' + qs.stringify(params);
+      url = 'https://api.instagram.com/v1/users/' + tokens.user.id + '/?access_token=' + tokens.access_token;
+      // url = 'https://api.instagram.com/v1/users/self/?access_token=' + tokens.access_token;
       // console.log(url);
       request.get(url, function(error, response, body) {
         if (!error && response.statusCode === 200) {
-          // console.log(body); // Show the HTML for the Google homepage
 
           var info = JSON.parse(body);
-          var key = self.PLATFORM_TYPE + '_' + tokens.user_id;
+          var key = self.PLATFORM_TYPE + '_' + tokens.user.id;
           var user = {
             tokens: tokens,
             info: info,
             key: key,
-            platform: 'DISQUS'
+            platform: 'ISTAGRAM'
           };
 
           deferred.resolve(user);
@@ -83,14 +77,15 @@ Disqus.prototype.callback = function (req, res) {
   return deferred.promise;
 };
 
-Disqus.prototype.getAuthorizeUrl = function (scopes) {
+Instagram.prototype.getAuthorizeUrl = function (scopes) {
   var scope = 'public_content';
   if (Array.isArray(scopes)) {
-    scope = scopes.join(',');
+    scope = scopes.join('+');
   }
   // console.log(scope);
-  var url = 'https://disqus.com/api/oauth/2.0/authorize?client_id=' + this.conf.API_KEY + '&scope=' + scope + '&response_type=code&redirect_uri=' + this.conf.REDIRECT_URL;
+  
+  var url = 'https://api.instagram.com/oauth/authorize/?client_id=' + this.conf.CLIENT_ID + '&scope=' + scope + '&response_type=code&redirect_uri=' + this.conf.REDIRECT_URL;
   return url;
 };
 
-exports.Disqus = Disqus;
+exports.Instagram = Instagram;

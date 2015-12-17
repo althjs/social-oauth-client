@@ -103,7 +103,7 @@ Twitter.prototype.getAuthorizeUrl = function () {
       // res.send(req_data);
 
       var url = 'https://api.twitter.com/oauth/authorize?oauth_token=' + req_data.oauth_token;
-
+      console.log(url);
       deferred.resolve(url);
     });
   } catch(e) {

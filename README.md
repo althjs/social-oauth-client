@@ -10,7 +10,8 @@ Social OAuth Client
   * Google
   * Twitter
   * GitHub
-  * DISQUS
+  * Disqus
+  * Instagram
 
 ## Installation
 ```bash
@@ -41,7 +42,8 @@ var google = new soc.Google({
 
 // go to Google authorize page
 app.get('/google_authorize', function (req, res) {
-  var url = google.getAuthorizeUrl();
+  var url = google.getAuthorizeUrl(); // default scope 'https://www.googleapis.com/auth/plus.me'
+  // var url = google.getAuthorizeUrl(['https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/calendar']);
   res.redirect(url);
 });
 
@@ -125,7 +127,8 @@ var facebook = new soc.Facebook( {
 
 // go to Facebook authorize page
 app.get('/facebook_authorize', function (req, res) {
-  var url = facebook.getAuthorizeUrl();
+  var url = facebook.getAuthorizeUrl(); // default scope public_profile
+  // var url = facebook.getAuthorizeUrl(['user_likes','email','user_events']);
   res.redirect(url);
 });
 
@@ -162,6 +165,8 @@ var twitter = new soc.Twitter({
 
 // go to Twitter authorize page
 app.get('/twitter_authorize', function (req, res) {
+
+  // twitter OAuth scope is managed by management console.
   var url = twitter.getAuthorizeUrl().then(function(url) {
     res.redirect(url);
   }, function(err) {
@@ -196,12 +201,13 @@ var soc = require('social-oauth-client');
 // GitHub (REPLACE WITH YOUR OWN APP SETTINGS)
 var github = new soc.GitHub({
   "CLIENT_ID": "xxxxxxxxxxe06f8939ff",
-  "CLIENT_SECERT": "xxxxxxxxxxebb7b3c74cc2e52245f4991338818f"
+  "CLIENT_SECRET": "xxxxxxxxxxebb7b3c74cc2e52245f4991338818f"
 });
 
 // go to GitHub authorize page
 app.get('/github_authorize', function (req, res) {
-  var url = github.getAuthorizeUrl();
+  var url = github.getAuthorizeUrl(); // default scope "user"
+  // var url = github.getAuthorizeUrl(['repo', 'gist']);
   res.redirect(url);
 });
 
@@ -232,13 +238,14 @@ var soc = require('social-oauth-client');
 // DISQUS (REPLACE WITH YOUR OWN APP SETTINGS)
 var disqus = new soc.Disqus({
   "API_KEY": "KKZyiA1EexxxxxxxxZWnOKoXuKWlKt9SSALYaN40P7rvOw65my6QpbbymWCxSFHZ",
-  "API_SECERT": "vihYOhS7xit7IAAvFvayyxkPkWuhHc1Qa0HXYQCUVWvvxxxxxCHgpc4DUnxTB9pn",
+  "API_SECRET": "vihYOhS7xit7IAAvFvayyxkPkWuhHc1Qa0HXYQCUVWvvxxxxxCHgpc4DUnxTB9pn",
   "REDIRECT_URL": "http://js.2do.kr:10000/service/oauth/disqus_callback"
 });
 
 // go to DISQUS authorize page
 app.get('/disqus_authorize', function (req, res) {
-  var url = disqus.getAuthorizeUrl();
+  var url = disqus.getAuthorizeUrl(); // default scope "read"
+  // var url = disqus.getAuthorizeUrl(['read', 'write']);
   res.redirect(url);
 });
 
@@ -247,6 +254,40 @@ app.get('/service/oauth/disqus_callback', function (req, res) {
 
   // delegate to social-oauth-client
   disqus.callback(req, res).then(function(user) {
+
+    // oauth token & user basic info will be shown
+    res.send(user);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+...
+```
+
+### Instagram
+```javascript
+...
+
+// Instagram (REPLACE WITH YOUR OWN APP SETTINGS)
+var instagram = new soc.Instagram({
+  "CLIENT_ID": "0ce5dc2f82d146fxxxxxx7e12a7c07e4",
+  "CLIENT_SECRET": "a04b226xxxxx4d6ab747129c83427223",
+  "REDIRECT_URL": "http://js.2do.kr:10000/service/oauth/instagram_callback"
+});
+
+// go to Instagram authorize page
+app.get('/instagram_authorize', function (req, res) {
+  var url = instagram.getAuthorizeUrl();  // default scope "public_content"
+  // var url = instagram.getAuthorizeUrl(['follower_list', 'likes']);
+  res.redirect(url);
+});
+
+// Instagram redirection url
+app.get('/service/oauth/instagram_callback', function (req, res) {
+
+  // delegate to social-auth-client
+  instagram.callback(req, res).then(function(user) {
 
     // oauth token & user basic info will be shown
     res.send(user);

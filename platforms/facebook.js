@@ -82,9 +82,14 @@ Facebook.prototype.callback = function (req, res) {
     return deferred.promise;
 };
 
-Facebook.prototype.getAuthorizeUrl = function (scope) {
+Facebook.prototype.getAuthorizeUrl = function (scopes) {
+    var scope = 'public_profile';
+    if (Array.isArray(scopes)) {
+      scope = scopes.join(',');
+    }
+    // console.log(scope);
     var url = 'https://www.facebook.com/dialog/oauth?client_id=' + this.conf.APP_ID + '&redirect_uri=' + encodeURIComponent(this.conf.REDIRECT_URL);
-    url+= '&scope=' + (scope || 'public_profile');
+    url+= '&scope=' + scope;
 
     return url;
 };

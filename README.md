@@ -12,6 +12,8 @@ Social OAuth Client
   * GitHub
   * Disqus
   * Instagram
+  * Naver
+  * Kakao
 
 ## Installation
 ```bash
@@ -289,6 +291,75 @@ app.get('/service/oauth/instagram_callback', function (req, res) {
   // delegate to social-auth-client
   instagram.callback(req, res).then(function(user) {
 
+    // oauth token & user basic info will be shown
+    res.send(user);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+...
+```
+
+### Naver
+```javascript
+...
+
+// Naver OAuth 2.0 (REPLACE WITH YOUR OWN APP SETTINGS)
+// https://nid.naver.com/devcenter/main.nhn
+var naver = new soc.Naver({
+  "CLIENT_ID": "rCcjmpJshawqaB7RXXXX",
+  "CLIENT_SECRET": "IT32xxxxIw",
+  "REDIRECT_URL": "http://js.2do.kr:3005/service/oauth/naver_callback"
+});
+
+// go to Naver authorize page
+app.get('/naver_authorize', function (req, res) {
+  var url = naver.getAuthorizeUrl();
+  // res.send(url);
+  res.redirect(url);
+});
+
+// Naver redirection url
+app.get('/service/oauth/naver_callback', function (req, res) {
+
+  // delegate to social-auth-client
+  naver.callback(req, res).then(function(user) {
+
+    // oauth token & user basic info will be shown
+    res.send(user);
+  }, function(err) {
+    res.send(err);
+  });
+
+});
+
+...
+```
+
+
+### Kakao
+```javascript
+...
+
+// Kakao (REPLACE WITH YOUR OWN APP SETTINGS)
+var kakao = new soc.Kakao({
+  "REST_KEY": "e4c4519465b273191afdc001c0xxxxxx",
+  "JAVASCRIPT_KEY": "a2c96aac53647a69xxxxxx6eaf4cf190",
+  "REDIRECT_URL": "http://js.2do.kr:3005/service/oauth/kakao_callback"
+});
+
+// go to Kakao authorize page
+app.get('/kakao_authorize', function (req, res) {
+  var url = kakao.getAuthorizeUrl();
+  res.redirect(url);
+});
+
+// Kakao redirection url
+app.get('/service/oauth/kakao_callback', function (req, res) {
+
+  // delegate to social-auth-client
+  kakao.callback(req, res).then(function(user) {
     // oauth token & user basic info will be shown
     res.send(user);
   }, function(err) {

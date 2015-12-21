@@ -14,6 +14,7 @@ Social OAuth Client
   * Instagram
   * Naver
   * Kakao
+  * Dropbox
 
 ## Installation
 ```bash
@@ -370,6 +371,39 @@ app.get('/service/oauth/kakao_callback', function (req, res) {
 ...
 ```
 
+### Dropbox
+```javascript
+...
+
+// Dropbox (REPLACE WITH YOUR OWN APP SETTINGS)
+var dropbox = new soc.Dropbox({
+  "CLIENT_ID": "hlyuxxxxxxxxdbk",
+  "CLIENT_SECRET": "lxvg1xxxxxnbxr7",
+  "REDIRECT_URL": "https://js.2do.kr/service/oauth/dropbox_callback"
+});
+
+// go to Dropbox authorize page
+app.get('/dropbox_authorize', function (req, res) {
+  // Dropbox OAuth scope is managed by management console.
+  var url = dropbox.getAuthorizeUrl();
+  res.redirect(url);
+});
+
+// Dropbox OAuth redirection url
+app.get('/service/oauth/dropbox_callback', function (req, res) {
+
+  // delegate to social-auth-client
+  dropbox.callback(req, res).then(function(user) {
+
+    // oauth token & user basic info will be shown
+    res.send(user);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+...
+```
 
 ## License
 * The MIT License (MIT)

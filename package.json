@@ -1,6 +1,6 @@
 {
   "name": "social-oauth-client",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Login with open platforms list Google, Facebook, Twitter, Github & ...",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,10 @@
     "Disqus",
     "Instagram",
     "Naver",
-    "Kakao"
+    "Kakao",
+    "Dropbox",
+    "Tumblr",
+    "Flickr"
   ],
   "author": "Jongsoon Park <althjs@gmail.com> (https://github.com/althjs/social-oauth-client/#readme)",
   "license": "MIT",
@@ -30,7 +33,9 @@
   },
   "homepage": "https://github.com/althjs/social-oauth-client#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.0",
     "googleapis": "^2.1.6",
+    "lodash": "^3.10.1",
     "q": "^1.4.1",
     "querystring": "^0.2.0",
     "request": "^2.65.0",

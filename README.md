@@ -15,6 +15,8 @@ Social OAuth Client
   * Naver
   * Kakao
   * Dropbox
+  * Tumblr - OAuth1
+  * Flickr - OAuth1
 
 ## Installation
 ```bash
@@ -404,6 +406,126 @@ app.get('/service/oauth/dropbox_callback', function (req, res) {
 
 ...
 ```
+
+
+
+### Tumblr - OAuth1
+```javascript
+...
+
+var express = require('express');
+var app = express();
+var cookieParser = require('cookie-parser');   // for temporary oauth_token_secret saving
+app.use(cookieParser());
+
+// require social-auth-client
+var soc = require('social-oauth-client');
+
+
+// Tumblr (REPLACE WITH YOUR OWN APP SETTINGS)
+var tumblr = new soc.Tumblr({
+  "CONSUMER_KEY": "ga9wlssygga4yZGqOHA5EyxxxxxtHgLBpp17ZOql2TWqdchVUc",
+  "CONSUMER_SECRET": "KhwFS7dN3JakU4mnXsxxxxxzMa38WDTMSQ09zRzgODbKy20gz6",
+  "REDIRECT_URL": "http://js.2do.kr:3005/service/oauth/tumblr_callback"
+});
+
+// go to Tumblr authorize page
+app.get('/tumblr_authorize', function (req, res) {
+
+  var url = tumblr.getAuthorizeUrl().then(function(o) {
+
+    // save oauth_token_secret to cookie temporary
+    var cookieDomain = '.2do.kr';
+    res.cookie('token_secret', o.token.oauth_token_secret, {domain: cookieDomain, path: '/'});
+
+    res.redirect(o.url);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+// Tumblr OAuth redirection url
+app.get('/service/oauth/tumblr_callback', function (req, res) {
+
+  // pass oauth_token_secret from cookie
+  req.query.token_secret = req.cookies.token_secret;
+
+  // delegate to social-auth-client
+  tumblr.callback(req, res).then(function(user) {
+
+    // delete temporary oauth_token_secret from cookie
+    var cookieDomain = '.2do.kr';
+    res.cookie('token_secret', '', {domain: cookieDomain, path: '/', expires: new Date(Date.now() - 1000)});
+
+    // oauth token & user basic info will be shown
+    res.send(user);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+
+...
+```
+
+
+### Flickr - OAuth1
+```javascript
+...
+
+var express = require('express');
+var app = express();
+var cookieParser = require('cookie-parser');   // for temporary oauth_token_secret saving
+app.use(cookieParser());
+
+// require social-auth-client
+var soc = require('social-oauth-client');
+
+// Flickr (REPLACE WITH YOUR OWN APP SETTINGS)
+var flickr = new soc.Flickr({
+  "CONSUMER_KEY": "5191b2bfecf2dcfxxxxxxxxxe7452e90",
+  "CONSUMER_SECRET": "0ecf4c8xxxx82dc7",
+  "REDIRECT_URL": "http://js.2do.kr:3005/service/oauth/flickr_callback"
+});
+
+// go to Flickr authorize page
+app.get('/flickr_authorize', function (req, res) {
+
+  // flickr OAuth scope is managed by management console.
+  var url = flickr.getAuthorizeUrl().then(function(o) {
+
+    // save oauth_token_secret to cookie temporary
+    var cookieDomain = '.2do.kr';
+    res.cookie('token_secret', o.token.oauth_token_secret, {domain: cookieDomain, path: '/'});
+
+    res.redirect(o.url);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+// Flickr OAuth redirection url
+app.get('/service/oauth/flickr_callback', function (req, res) {
+
+  // pass oauth_token_secret from cookie
+  req.query.token_secret = req.cookies.token_secret;
+
+  flickr.callback(req, res).then(function(user) {
+
+    // delete temporary oauth_token_secret from cookie
+    var cookieDomain = '.2do.kr';
+    res.cookie('token_secret', '', {domain: cookieDomain, path: '/', expires: new Date(Date.now() - 1000)});
+
+    // oauth token & user basic info will be shown
+    res.send(user);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+...
+```
+
 
 ## License
 * The MIT License (MIT)

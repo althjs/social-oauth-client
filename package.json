@@ -24,7 +24,8 @@
     "Kakao",
     "Dropbox",
     "Tumblr",
-    "Flickr"
+    "Flickr",
+    "Wordpress"
   ],
   "author": "Jongsoon Park <althjs@gmail.com> (https://github.com/althjs/social-oauth-client/#readme)",
   "license": "MIT",

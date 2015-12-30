@@ -11,6 +11,7 @@ var kakao = require('./platforms/kakao');
 var dropbox = require('./platforms/dropbox');
 var tumblr = require('./platforms/tumblr');
 var flickr = require('./platforms/flickr');
+var wordpress = require('./platforms/wordpress');
 
 exports.Facebook = facebook.Facebook;
 exports.Google = google.Google;
@@ -23,3 +24,4 @@ exports.Kakao = kakao.Kakao;
 exports.Dropbox = dropbox.Dropbox;
 exports.Tumblr = tumblr.Tumblr;
 exports.Flickr = flickr.Flickr;
+exports.Wordpress = wordpress.Wordpress;

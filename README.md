@@ -17,6 +17,7 @@ Social OAuth Client
   * Dropbox
   * Tumblr - OAuth1
   * Flickr - OAuth1
+  * Wordpress
 
 ## Installation
 ```bash
@@ -526,6 +527,40 @@ app.get('/service/oauth/flickr_callback', function (req, res) {
 ...
 ```
 
+
+## Wordpress
+```javascript
+...
+
+// Wordpress (REPLACE WITH YOUR OWN APP SETTINGS)
+var wordpress = new soc.Wordpress({
+  "CLIENT_ID": "44xx2",
+  "CLIENT_SECRET": "axwBhV3OnQWNXzsz7ZudcDaxjDBS6TfAsb1Zho8WeifEaxxxxxxxxvq4xfEkYtFd",
+  "REDIRECT_URL": "http://js.2do.kr:3005/service/oauth/wordpress_callback"
+});
+
+// go to Wordpress authorize page
+app.get('/wordpress_authorize', function (req, res) {
+  var url = wordpress.getAuthorizeUrl(); // default scope "auth"
+  // var url = wordpress.getAuthorizeUrl(['global']);
+  res.redirect(url);
+});
+
+// Wordpress OAuth redirection url
+app.get('/service/oauth/wordpress_callback', function (req, res) {
+
+  // delegate to social-auth-client
+  wordpress.callback(req, res).then(function(user) {
+
+    // oauth token & user basic info will be shown
+    res.send(user);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+...
+```
 
 ## License
 * The MIT License (MIT)

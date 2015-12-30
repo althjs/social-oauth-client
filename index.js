@@ -12,6 +12,7 @@ var dropbox = require('./platforms/dropbox');
 var tumblr = require('./platforms/tumblr');
 var flickr = require('./platforms/flickr');
 var wordpress = require('./platforms/wordpress');
+var tistory = require('./platforms/tistory');
 
 exports.Facebook = facebook.Facebook;
 exports.Google = google.Google;
@@ -25,3 +26,4 @@ exports.Dropbox = dropbox.Dropbox;
 exports.Tumblr = tumblr.Tumblr;
 exports.Flickr = flickr.Flickr;
 exports.Wordpress = wordpress.Wordpress;
+exports.Tistory = tistory.Tistory;
